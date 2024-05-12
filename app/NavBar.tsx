@@ -12,7 +12,7 @@ const NavBar = () => {
     { label: "Issues", href: "/issues" },
   ];
   return (
-    <nav className="flex gap-5 h-14 items-center border-b mb-4 pl-4">
+    <nav className="flex gap-5 h-14 items-center border-b mb-4 pl-5">
       <h3>
         <Link href="/">
           <FaBug />
