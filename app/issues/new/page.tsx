@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { Button, Callout, Text, TextField } from "@radix-ui/themes";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
@@ -11,18 +11,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/ValidationSchemas";
 import { z } from "zod";
 import ErrorMessege from "@/app/components/ErrorMessege";
+import Spinner from "@/app/components/Spinner";
 
 type FormData = z.infer<typeof createIssueSchema>
 const page = () => {
   const navigate = useRouter();
   const [error, setError] = useState("");
+  const [isSubmitting,setIsSubmitting] = useState(false)
   const { register, handleSubmit, control,formState:{errors} } = useForm<FormData>({resolver:zodResolver(createIssueSchema)});
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
+      setIsSubmitting(true)
       await axios.post("/api/issues", data);
       navigate.push("/issues");
       
     } catch (error) {
+      setIsSubmitting(false)
       setError(" The minimum length of the title or description should be 1.")
     }
   };
@@ -56,7 +60,7 @@ const page = () => {
         </ErrorMessege>
 
 
-        <Button>Submit A New Isuue</Button>
+        <Button disabled={isSubmitting}>{isSubmitting?<Spinner/>:"Submit A New Isuue"}</Button>
       </form>
     </div>
   );
