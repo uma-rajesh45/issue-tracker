@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
-import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -12,6 +11,8 @@ import { createIssueSchema } from "@/app/ValidationSchemas";
 import { z } from "zod";
 import ErrorMessege from "@/app/components/ErrorMessege";
 import Spinner from "@/app/components/Spinner";
+import dynamic from "next/dynamic";
+const SimpleMDE = dynamic(()=>import('react-simplemde-editor'),{ssr:false});
 
 type FormData = z.infer<typeof createIssueSchema>
 const page =() => {
