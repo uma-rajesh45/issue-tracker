@@ -14,7 +14,7 @@ import ErrorMessege from "@/app/components/ErrorMessege";
 import Spinner from "@/app/components/Spinner";
 
 type FormData = z.infer<typeof createIssueSchema>
-const page = () => {
+const page =() => {
   const navigate = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting,setIsSubmitting] = useState(false)
