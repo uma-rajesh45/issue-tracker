@@ -17,7 +17,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 
 type FormData = z.infer<typeof issueSchema>;
 const IssueForm = ({ issue }: { issue?: issue }) => {
-  const navigate = useRouter();
+  const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -31,7 +31,8 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
       setIsSubmitting(true);
       if (issue) await axios.patch("/api/issues/" + issue.id, data);
       else await axios.post("/api/issues", data);
-      navigate.push("/issues");
+      router.push("/issues");
+      router.refresh();
     } catch (error) {
       setIsSubmitting(false);
       setError(" The minimum length of the title or description should be 1.");
