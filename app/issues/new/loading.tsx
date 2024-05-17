@@ -1,5 +1,6 @@
 import React from 'react'
-import Skeleton from 'react-loading-skeleton'
+import Skeleton from '@/app/components/Skeleton'
+
 
 const loading = () => {
   return (

@@ -9,35 +9,38 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/ValidationSchemas";
 import { z } from "zod";
-import ErrorMessege from "@/app/components/ErrorMessege";
-import Spinner from "@/app/components/Spinner";
+import { ErrorMessege, Spinner } from "@/app/components/index";
 import dynamic from "next/dynamic";
-const SimpleMDE = dynamic(()=>import('react-simplemde-editor'),{ssr:false});
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
-type FormData = z.infer<typeof createIssueSchema>
-const page =() => {
+type FormData = z.infer<typeof createIssueSchema>;
+const page = async () => {
   const navigate = useRouter();
   const [error, setError] = useState("");
-  const [isSubmitting,setIsSubmitting] = useState(false)
-  const { register, handleSubmit, control,formState:{errors} } = useForm<FormData>({resolver:zodResolver(createIssueSchema)});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormData>({ resolver: zodResolver(createIssueSchema) });
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      setIsSubmitting(true)
+      setIsSubmitting(true);
       await axios.post("/api/issues", data);
       navigate.push("/issues");
-      
     } catch (error) {
-      setIsSubmitting(false)
-      setError(" The minimum length of the title or description should be 1.")
+      setIsSubmitting(false);
+      setError(" The minimum length of the title or description should be 1.");
     }
   };
   return (
     <div className=" max-w-xl">
       {error && (
         <Callout.Root className="mb-3" color="red">
-          <Callout.Text>
-           {error}
-          </Callout.Text>
+          <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
 
@@ -46,9 +49,7 @@ const page =() => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <TextField.Root placeholder="Title" {...register("title")} />
-        <ErrorMessege>
-          {errors.title?.message}
-        </ErrorMessege>
+        <ErrorMessege>{errors.title?.message}</ErrorMessege>
         <Controller
           control={control}
           name="description"
@@ -56,12 +57,11 @@ const page =() => {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
-     <ErrorMessege>
-          {errors.description?.message}
-        </ErrorMessege>
+        <ErrorMessege>{errors.description?.message}</ErrorMessege>
 
-
-        <Button disabled={isSubmitting}>{isSubmitting?<Spinner/>:"Submit A New Isuue"}</Button>
+        <Button disabled={isSubmitting}>
+          {isSubmitting ? <Spinner /> : "Submit A New Isuue"}
+        </Button>
       </form>
     </div>
   );

@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-async-client-component */
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
-import IssueStatusBadge from "../components/IssueStatusBadge";
+import {IssueStatusBadge,Link} from "../components/index";
 import IssueActions from "../issues/IssueActions";
-import Link from '../components/Link'
 
 const Home = async () => {
   const issues = await prisma.issue.findMany();
