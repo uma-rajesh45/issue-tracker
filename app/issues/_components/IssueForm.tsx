@@ -29,7 +29,8 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       setIsSubmitting(true);
-      await axios.post("/api/issues", data);
+      if (issue) await axios.patch("/api/issues/" + issue.id, data);
+      else await axios.post("/api/issues", data);
       navigate.push("/issues");
     } catch (error) {
       setIsSubmitting(false);
@@ -55,7 +56,7 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
         />
         <ErrorMessege>{errors.title?.message}</ErrorMessege>
         <Controller
-            defaultValue={issue?.description}
+          defaultValue={issue?.description}
           control={control}
           name="description"
           render={({ field }) => (
@@ -65,7 +66,8 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
         <ErrorMessege>{errors.description?.message}</ErrorMessege>
 
         <Button disabled={isSubmitting}>
-          {isSubmitting ? <Spinner /> : "Submit A New Isuue"}
+          {issue ? "Update The Issue" : "Submit The Issue"}{" "}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>
