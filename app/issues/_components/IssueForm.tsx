@@ -1,19 +1,16 @@
 "use client";
-import { Button, Callout, TextField } from "@radix-ui/themes";
-import "easymde/dist/easymde.min.css";
-import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { issueSchema } from "@/app/ValidationSchemas";
-import { z } from "zod";
 import { ErrorMessege, Spinner } from "@/app/components/index";
-import dynamic from "next/dynamic";
+import { issueSchema } from "@/app/ValidationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { issue } from "@prisma/client";
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-});
+import { Button, Callout, TextField } from "@radix-ui/themes";
+import axios from "axios";
+import "easymde/dist/easymde.min.css";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import SimpleMDE from 'react-simplemde-editor';
 
 type FormData = z.infer<typeof issueSchema>;
 const IssueForm = ({ issue }: { issue?: issue }) => {
