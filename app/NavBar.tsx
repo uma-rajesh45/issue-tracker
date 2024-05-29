@@ -1,11 +1,14 @@
 "use client";
+import { Box } from "@radix-ui/themes";
 import classNames from "classnames";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { FaBug } from "react-icons/fa";
 
 const NavBar = () => {
+ const {status,data:session} = useSession();
   const path = usePathname();
   const links = [
     { label: "Dashboard", href: "/" },
@@ -20,8 +23,8 @@ const NavBar = () => {
       </h3>
       <ul className="flex gap-4">
         {links.map((link) => (
+          <li key={link.href}>
           <Link
-            key={link.href}
             href={link.href}
             className={classNames({ "text-zinc-900": link.href === path,
                 'text-zinc-500':link.href!==path,
@@ -29,9 +32,13 @@ const NavBar = () => {
              })}
           >
             {link.label}
-          </Link>
+          </Link></li>
         ))}
       </ul>
+      <Box>
+        {status==="authenticated"&&(<Link href="/api/auth/signout">Logout</Link>)}
+        {status==="unauthenticated"&&(<Link href="/api/auth/signin">Login</Link>)}
+      </Box>
     </nav>
   );
 };
