@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { Container, Theme } from "@radix-ui/themes";
 import NavBar from "./NavBar";
 import Provider from "./auth/Provider";
+import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <QueryClientProvider>
       <Provider>
       <body className={inter.variable}>
         
@@ -33,6 +35,7 @@ export default function RootLayout({
         </Theme>
       </body>
       </Provider>
+      </QueryClientProvider>
     </html>
   );
 }
