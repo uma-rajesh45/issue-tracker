@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Skeleton from "@/app/components/Skeleton";
+import toast, { Toaster } from 'react-hot-toast';
 const AssigneeSelect = ({ issue }: { issue: issue }) => {
   const {
     data: users,
@@ -19,14 +20,15 @@ const AssigneeSelect = ({ issue }: { issue: issue }) => {
   if (isLoading) return <Skeleton />;
   if (error) return null;
   return (
+    <>
     <Select.Root
       defaultValue={issue.assignedToUserId || "unassign"}
       onValueChange={(userId) => {
-        if (userId === "unassign") {
-          axios.patch("/api/issues/" + issue.id, { assignedToUserId: null });
-        } else {
-          axios.patch("/api/issues/" + issue.id, { assignedToUserId: userId });
-        }
+          if (userId === "unassign") {
+            axios.patch("/api/issues/" + issue.id, { assignedToUserId: null }).catch(()=>{toast.error("changes could not be updated :(")});
+          } else {
+            axios.patch("/api/issues/" + issue.id, { assignedToUserId: userId }).catch(()=>{toast.error("changes could not be updated :(")});
+          }
       }}
     >
       <Select.Trigger placeholder="Assign..." />
@@ -44,6 +46,8 @@ const AssigneeSelect = ({ issue }: { issue: issue }) => {
         </Select.Group>
       </Select.Content>
     </Select.Root>
+    <Toaster/>
+    </>
   );
 };
 
