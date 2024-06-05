@@ -1,11 +1,10 @@
 "use client";
+import Skeleton from "@/app/components/Skeleton";
 import { issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Skeleton from "@/app/components/Skeleton";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 const AssigneeSelect = ({ issue }: { issue: issue }) => {
   const {
     data: users,
@@ -19,34 +18,43 @@ const AssigneeSelect = ({ issue }: { issue: issue }) => {
   });
   if (isLoading) return <Skeleton />;
   if (error) return null;
+  const onChangeIssue = (userId: string) => {
+    if (userId === "unassign") {
+      axios
+        .patch("/api/issues/" + issue.id, { assignedToUserId: null })
+        .catch(() => {
+          toast.error("changes could not be updated :(");
+        });
+    } else {
+      axios
+        .patch("/api/issues/" + issue.id, { assignedToUserId: userId })
+        .catch(() => {
+          toast.error("changes could not be updated :(");
+        });
+    }
+  };
   return (
     <>
-    <Select.Root
-      defaultValue={issue.assignedToUserId || "unassign"}
-      onValueChange={(userId) => {
-          if (userId === "unassign") {
-            axios.patch("/api/issues/" + issue.id, { assignedToUserId: null }).catch(()=>{toast.error("changes could not be updated :(")});
-          } else {
-            axios.patch("/api/issues/" + issue.id, { assignedToUserId: userId }).catch(()=>{toast.error("changes could not be updated :(")});
-          }
-      }}
-    >
-      <Select.Trigger placeholder="Assign..." />
-      <Select.Content>
-        <Select.Group>
-          <Select.Label>Suggestions</Select.Label>
-          <Select.Item value="unassign">Unassign</Select.Item>
-          {users?.map((user) => (
-            <>
-              <Select.Item key={user.id} value={user.id}>
-                {user.name}
-              </Select.Item>
-            </>
-          ))}
-        </Select.Group>
-      </Select.Content>
-    </Select.Root>
-    <Toaster/>
+      <Select.Root
+        defaultValue={issue.assignedToUserId || "unassign"}
+        onValueChange={onChangeIssue}
+      >
+        <Select.Trigger placeholder="Assign..." />
+        <Select.Content>
+          <Select.Group>
+            <Select.Label>Suggestions</Select.Label>
+            <Select.Item value="unassign">Unassign</Select.Item>
+            {users?.map((user) => (
+              <>
+                <Select.Item key={user.id} value={user.id}>
+                  {user.name}
+                </Select.Item>
+              </>
+            ))}
+          </Select.Group>
+        </Select.Content>
+      </Select.Root>
+      <Toaster />
     </>
   );
 };
