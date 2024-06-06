@@ -1,5 +1,5 @@
 "use client";
-import { Status } from "@prisma/client";
+import { issue, Status } from "@prisma/client";
 
 import { Select } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
