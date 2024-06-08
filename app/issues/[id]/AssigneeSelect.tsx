@@ -45,11 +45,11 @@ const AssigneeSelect = ({ issue }: { issue: issue }) => {
             <Select.Label>Suggestions</Select.Label>
             <Select.Item value="unassign">Unassign</Select.Item>
             {users?.map((user) => (
-              <>
+             
                 <Select.Item key={user.id} value={user.id}>
                   {user.name}
                 </Select.Item>
-              </>
+              
             ))}
           </Select.Group>
         </Select.Content>

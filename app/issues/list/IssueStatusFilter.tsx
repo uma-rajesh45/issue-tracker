@@ -1,5 +1,6 @@
 "use client";
 import { issue, Status } from "@prisma/client";
+import { v4 as uuidv4 } from 'uuid';
 
 import { Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -34,7 +35,7 @@ const IssueStatusFilter = () => {
       <Select.Trigger placeholder="Filter by status" />
       <Select.Content>
         {statuses.map((status) => (
-          <Select.Item key={status.value} value={status.value || " "}>
+          <Select.Item key={uuidv4()} value={status.value || " "}>
             {status.label}
           </Select.Item>
         ))}

@@ -4,6 +4,7 @@ import { Status } from "@prisma/client";
 import Pagination from "../components/Pagination";
 import IssueActions from "../issues/IssueActions";
 import IssueTable, { columnNames, IssueQuery } from "./IssueTable";
+import { Metadata } from "next";
 interface Props {
   searchParams:IssueQuery
 }
@@ -34,4 +35,8 @@ const issueCount = await prisma.issue.count({where:{status}})
   );
 };
 export const dynamic = 'force-dynamic'
+export const metadata : Metadata ={
+  title:'Total Issues',
+  description:"The total issues are specified here"
+}
 export default Home;

@@ -5,6 +5,7 @@ import IssueSummary from "./IssueSummary";
 import prisma from "@/prisma/client";
 import IssueChart from "./IssueChart";
 import { Flex, Grid } from "@radix-ui/themes";
+import { Metadata } from "next";
 
 const IssuesPage = async ({
   searchParams,
@@ -31,5 +32,9 @@ const IssuesPage = async ({
     </Grid>
   );
 };
+export const metadata : Metadata ={
+  title:'Dashboard - Latest Issues',
+  description:"Dashboard to view latest issues and number of issues that are open,inprogress or closed"
+}
 
 export default IssuesPage;
