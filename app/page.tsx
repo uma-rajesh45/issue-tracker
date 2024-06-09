@@ -21,9 +21,9 @@ const IssuesPage = async ({
   const close = await prisma.issue.count({
     where: { status: "CLOSED" },
   });
-
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
+      
       <Flex direction="column" gap="5">
         <IssueChart open={open} closed={close} inProgress={inProgress} />
         <IssueSummary closed={close} inProgress={inProgress} open={open} />

@@ -7,6 +7,11 @@ import { Container, Theme } from "@radix-ui/themes";
 import NavBar from "./NavBar";
 import Provider from "./auth/Provider";
 import QueryClientProvider from "./QueryClientProvider";
+import Bugsnag from '@bugsnag/js'
+import BugsnagPerformance from '@bugsnag/browser-performance'
+Bugsnag.start({ apiKey: '7953b40fe050d4a625437ae10a4b99c6' })
+BugsnagPerformance.start({ apiKey: '7953b40fe050d4a625437ae10a4b99c6' })
+
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
