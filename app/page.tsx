@@ -1,12 +1,12 @@
 import React from "react";
 import Pagination from "./components/Pagination";
-import LatestIssues from "./LatestIssues";
 import IssueSummary from "./IssueSummary";
 import prisma from "@/prisma/client";
 import IssueChart from "./IssueChart";
 import { Flex, Grid } from "@radix-ui/themes";
 import { Metadata } from "next";
-
+import dynamic from 'next/dynamic';
+const LatestIssues = dynamic(()=>import("./LatestIssues"),{ssr:false})
 const IssuesPage = async ({
   searchParams,
 }: {
